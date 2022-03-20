@@ -7,7 +7,7 @@
   }
   .navbar__header {
     margin-left: 10px;
-    font-size: 24px;
+    font-size: calc(16px + (24 - 16) * ((100vw - 320px) / (1200 - 320)));
     font-weight: 700;
   }
   .navbar__login {
@@ -18,4 +18,12 @@
     width: 1140px;
     display: flex;
     align-items: center;
+  }
+  @media screen and (max-width : 1150px){
+    .navbar{
+      padding: 0 30px;
+    }
+  }
+  @media screen and (max-width : 540px){
+    .navbar__header{display: none;}
   }
