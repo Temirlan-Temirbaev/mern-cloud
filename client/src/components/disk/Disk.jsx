@@ -6,6 +6,7 @@ import FileList from "./fileList/FileList";
 import Popup from './Popup'
 import './disk.css'
 import { useState } from 'react';
+import Uploader from './uploader/Uploader';
 const Disk = () => {
     const dispatch = useDispatch()
     const currentDir = useSelector(state => state.files.currentDir)
@@ -63,6 +64,7 @@ const Disk = () => {
             </div>
             <FileList />
             <Popup />
+            <Uploader />
         </div>
         : 
         <div className='drop-area' 
