@@ -11,10 +11,12 @@ const Disk = () => {
     const dispatch = useDispatch()
     const currentDir = useSelector(state => state.files.currentDir)
     const dirStack = useSelector(state => state.files.dirStack)
+    const loader = useSelector(state => state.app.loader)
     const [dragEnter, setDragEnter] = useState(false)
+    const [sort, setSort] = useState('type')
     useEffect(() => {
-        dispatch(getFiles(currentDir))
-    }, [currentDir])
+        dispatch(getFiles(currentDir, sort))
+    }, [currentDir, sort])
 
     function showPopupHandler() {
         dispatch(setPopupDisplay('flex'))
@@ -49,6 +51,13 @@ const Disk = () => {
         files.forEach(file => dispatch(uploadFile(file, currentDir)))
         setDragEnter(false)
     }
+    if(loader === true){
+        return (
+            <div className="loader">
+                <div className="lds-dual-ring"></div>
+            </div>
+        )
+    }
     return ( !dragEnter ?
         <div className="disk" 
         onDragEnd={dragEnterHandler} 
@@ -61,6 +70,11 @@ const Disk = () => {
                     <label htmlFor="disk__upload-input" className="disk__upload-label">Загрузить файл</label>
                     <input multiple={true} onChange={(e) => fileUploadHandler(e)} type="file" id='disk__upload-input' />
                 </button>
+                <select value={sort} onChange={(e) => setSort(e.target.value)} className='disk__select'>
+                    <option value="name">По имени</option>
+                    <option value="type">По типу</option>
+                    <option value="date">По дате</option>
+                </select>
             </div>
             <FileList />
             <Popup />

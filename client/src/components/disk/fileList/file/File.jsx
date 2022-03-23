@@ -18,11 +18,16 @@ const File = ({file}) => {
         console.log("its not dir")
     }
     function calculateSize(){
-        if(file.size >= 1000) return `${file.size / 1000} КБ`
-        if(file.size === 0 ) return '0 Байт'
-        if(file.size >= 1000000) return `${file.size / 1000000} МБ`
-        if(file.size >= 1000000000) return `${file.size / 1000000000} ГБ`
-        if(file.size <= 1000) return `${file.size} Байт`
+        if(file.size > 1024*1024*1024) {
+            return (file.size/(1024*1024*1024)).toFixed(1)+"Гб"
+        }
+        if(file.size > 1024*1024) {
+            return (file.size/(1024*1024)).toFixed(1)+"Мб"
+        }
+        if(file.size > 1024) {
+            return (file.size/(1024)).toFixed(1)+"Кб"
+        }
+        return file.size+"Б"
 
     }
 
