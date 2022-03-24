@@ -2,5 +2,6 @@
     "serverPort" : 5000,
     "dbUrl" : "mongodb+srv://Tima19092008:KwzPbA2EHaNWQiQg@cloud.wmpuj.mongodb.net/mern-cloud?retryWrites=true&w=majority",
     "secretKey" : "mern-secret-key",
-    "filePath" : "C:\\Users\\User\\Desktop\\react projects\\mern-cloud\\server\\files"
+    "filePath" : "C:\\Users\\User\\Desktop\\react projects\\mern-cloud\\server\\files",
+    "staticPath" : "C:\\Users\\User\\Desktop\\react projects\\mern-cloud\\server\\static"
 }

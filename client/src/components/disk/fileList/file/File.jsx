@@ -48,18 +48,20 @@ const File = ({file}) => {
             <div className="file__date">{file.date.slice(0, 10)}</div>
             <div className="file__size">{calculateSize()}</div>
             {file.type !== 'dir' && <button onClick={(e) => downloadClickHandler(e)} 
-            className='file__btn file__download'></button>}
+            className='file__btn file__download'><img height={40} width={30} src={downloadLogo} alt="Скачать"/></button>}
             <button 
             onClick={(e) => {deleteClickHandler(e)}}
             className='file__btn file__delete'><img height={40} width={20} src={deleteLogo} alt="Удалить"/></button>
         </div>
     )
     }
-
     if(view === 'plate'){
+        if(file.name.length >= 12){
+            file.name = file.name.slice(0,10) + `...${file.type}`
+        }
         return <div className='file-plate' onClick={file.type === 'dir' ? () => openHandler() : () => openPlayerHandler()}>
         <img src={file.type === 'dir' ? dirLogo : fileLogo} alt="" className="file-plate__img"/>
-        <div className="file-plate__name">{file.name.slice(0,12) + '...'}</div>
+        <div className="file-plate__name">{file.name}</div>
         <div className="file-plate__btns">
             {file.type !== 'dir' &&
             <button 
