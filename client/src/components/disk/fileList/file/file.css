@@ -50,4 +50,24 @@
     border: none;
     outline: none;
     background: none;
+    cursor: pointer;
+  }
+  .file-plate {
+    margin-top: 20px;
+    width: 150px;
+    height: 150px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .file-plate__img {
+    height: 100px;
+    width: 100px;
+  }
+  .file-plate__btns {
+    display: none;
+  }
+  .file-plate:hover .file-plate__btns {
+    display: flex;
   }

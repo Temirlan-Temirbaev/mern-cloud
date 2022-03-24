@@ -2,7 +2,8 @@ const defaultState = {
     files : [],
     currentDir : null,
     popupDisplay : 'none',
-    dirStack : []
+    dirStack : [],
+    view : "list"
 }
 
 export default function fileReducer(state = defaultState, action){
@@ -19,6 +20,7 @@ export default function fileReducer(state = defaultState, action){
             return {...state, popupDisplay: action.payload}
         case "PUSH_TO_STACK":
             return {...state, dirStack: [...state.dirStack, action.payload]}
+        case "SET_VIEW": return {...state, view : action.payload}
         default : return state
     }
 }

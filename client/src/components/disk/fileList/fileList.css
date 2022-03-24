@@ -29,3 +29,7 @@
       transform: translateY(0);
     }
   }
+
+  .fileplate{
+    display: flex;
+  }

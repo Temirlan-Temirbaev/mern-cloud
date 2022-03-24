@@ -75,6 +75,8 @@ const Disk = () => {
                     <option value="type">По типу</option>
                     <option value="date">По дате</option>
                 </select>
+                <button className="disk__plate" onClick={() => dispatch({type : "SET_VIEW", payload : 'plate'})} />
+                <button className="disk__list" onClick={() => dispatch({type : "SET_VIEW", payload : 'list'})}/>
             </div>
             <FileList />
             <Popup />
