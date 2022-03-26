@@ -8,7 +8,7 @@ const FileList = () => {
     const view = useSelector(state => state.files.view);
     if(files.length === 0){
         return(
-            <div>Файлы не найдены</div>
+            <div className='empty'>Файлы не найдены...</div>
         )
     }
     if(view === 'list'){

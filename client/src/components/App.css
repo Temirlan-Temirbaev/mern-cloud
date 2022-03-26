@@ -2,7 +2,8 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  color: #566885;
+  font-family: 'Roboto', sans-serif;
+  color: #4294FF;
 }
 body {
   background-color: #E9E6E6;

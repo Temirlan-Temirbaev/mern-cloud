@@ -23,7 +23,7 @@ class FileController{
             return res.json(file)
         } catch (e) {
             console.log(e)
-            return res.status(400).json({message : "e"})
+            return res.status(400).json({message : "Не удалось создать папку"})
         }
     }
     async getFiles(req,res){
@@ -47,7 +47,7 @@ class FileController{
             return res.json(files)
         } catch (e) {
             console.log(e)
-            return res.status(500).json({message : "cannot get files"})
+            return res.status(500).json({message : "Не удалось получить файлы, попробуйте перезапустить страницу"})
         }
     }
     async uploadFile(req,res){
@@ -55,7 +55,7 @@ class FileController{
             const file = req.files.file
             const parent = await File.findOne({user : req.user.id, _id : req.body.parent})
             const user = await User.findOne({_id: req.user.id})
-            if(user.usedSpace + file.size > user.diskSpace) return res.status(400).json({message : 'No space'})
+            if(user.usedSpace + file.size > user.diskSpace) return res.status(400).json({message : 'Нет места на диске'})
             user.usedSpace = user.usedSpace + file.size
             let path;
             if(parent){
@@ -64,7 +64,7 @@ class FileController{
                 path = `${config.get('filePath')}\\${user._id}\\${file.name}`
             }
             if(fs.existsSync(path)){
-                return res.status(400).json({message : 'already exists'})
+                return res.status(400).json({message : 'Файл уже существует'})
             }
             file.mv(path)
             const type = file.name.split('.').pop()
@@ -85,7 +85,7 @@ class FileController{
             res.json(dbFile)
         } catch (e) {
             console.log(e)
-            return res.status(500).json({message : "cannot upload files"})
+            return res.status(500).json({message : "Не удалось загрузить файл"})
         }
     }
     async downloadFile(req,res){
@@ -95,9 +95,9 @@ class FileController{
             if(fs.existsSync(path)){
                 return res.download(path, file.name)
             } 
-            return res.status(400).json({message : "file dont found"})
+            return res.status(400).json({message : "Файл не найден"})
         } catch (e) {
-            res.status(500).json({message : "download error"})
+            res.status(400).json({message : "Ошибка скачивания файла"})
             console.log(e);
         }
     }
@@ -105,14 +105,14 @@ class FileController{
         try {
             const file = await File.findOne({_id: req.query.id, user: req.user.id})
             if (!file) {
-                return res.status(400).json({message: 'file not found'})
+                return res.status(400).json({message: 'Файл не найден'})
             }
             fileService.deleteFile(file)
             await file.remove()
-            return res.json({message: 'File was deleted'})
+            return res.json({message: 'Файл успешно был удален'})
         } catch (e) {
             console.log(e)
-            return res.status(400).json({message: 'Dir is not empty'})
+            return res.status(400).json({message: 'Папка не пуста, требуется удалить все внутренние файлы'})
         }
     }
     async uploadAvatar(req,res){
@@ -126,7 +126,7 @@ class FileController{
             return res.json(user)
         } catch (e) {
             console.log(e)
-            return res.status(400).json({message: 'Upload avatar error'})
+            return res.status(400).json({message: 'Ошибка загрузки аватара'})
         }
     }
     async deleteAvatar(req,res){
@@ -138,7 +138,7 @@ class FileController{
             return res.json(user)
         } catch (e) {
             console.log(e)
-            return res.status(400).json({message: 'delete avatar error'})
+            return res.status(400).json({message: 'Не удалось удалить аватар'})
         }
     }
 }

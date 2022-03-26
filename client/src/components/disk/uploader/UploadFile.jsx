@@ -3,6 +3,9 @@ import { useDispatch } from 'react-redux'
 import './uploader.css'
 export default function UploadFile({file}) {
     const dispatch = useDispatch()
+    if(file.name.length >= 12){
+      file.name = file.name.slice(0,12)
+    }
   return (
     <div className='upload-file'>
         <div className="upload-file__header">

@@ -1,0 +1,17 @@
+.profile{
+    width: 100%;
+    height: calc(100vh - 50px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.profileInput{
+    width: calc(150px + (200 - 150) * ((100vw - 320px) / (1200 - 320)));
+    border : none;
+}
+.avatar{
+    width: 256px;
+    height: 256px;
+    border-radius: 50%;
+}

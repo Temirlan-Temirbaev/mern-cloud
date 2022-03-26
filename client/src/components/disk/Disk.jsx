@@ -54,7 +54,7 @@ const Disk = () => {
     if(loader === true){
         return (
             <div className="loader">
-                <div className="lds-dual-ring"></div>
+                <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
             </div>
         )
     }
@@ -64,19 +64,23 @@ const Disk = () => {
         onDragLeave={dragLeaveHandler} 
         onDragOver={dragOverHandler}>
             <div className="disk__btns">
-                <button className="disk__back" onClick={() => backClickHandler()}>Назад</button>
-                <button className="disk__create" onClick={() => showPopupHandler()}>Создать папку</button>
-                <button className="disk__upload">
-                    <label htmlFor="disk__upload-input" className="disk__upload-label">Загрузить файл</label>
-                    <input multiple={true} onChange={(e) => fileUploadHandler(e)} type="file" id='disk__upload-input' />
-                </button>
-                <select value={sort} onChange={(e) => setSort(e.target.value)} className='disk__select'>
+                <div className="file__btns">
+                    <button className="disk__back" onClick={() => backClickHandler()}>Назад</button>
+                    <button className="disk__create" onClick={() => showPopupHandler()}>Создать папку</button>
+                    <button className="disk__upload">
+                        <label htmlFor="disk__upload-input" className="disk__upload-label">Загрузить файл</label>
+                        <input multiple={true} onChange={(e) => fileUploadHandler(e)} type="file" id='disk__upload-input' />
+                    </button>
+                </div>
+                <div className="view__btns">
+                    <select value={sort} onChange={(e) => setSort(e.target.value)} className='disk__select'>
                     <option value="name">По имени</option>
                     <option value="type">По типу</option>
                     <option value="date">По дате</option>
-                </select>
-                <button className="disk__plate" onClick={() => dispatch({type : "SET_VIEW", payload : 'plate'})} />
-                <button className="disk__list" onClick={() => dispatch({type : "SET_VIEW", payload : 'list'})}/>
+                    </select>
+                    <button className="disk__plate" onClick={() => dispatch({type : "SET_VIEW", payload : 'plate'})} />
+                    <button className="disk__list" onClick={() => dispatch({type : "SET_VIEW", payload : 'list'})}/>
+                </div>
             </div>
             <FileList />
             <Popup />

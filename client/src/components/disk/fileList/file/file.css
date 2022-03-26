@@ -12,6 +12,7 @@
   }
   .file__img {
     justify-self: center;
+    margin-bottom: 5px;
   }
   .file__date {
     grid-column-start: 5;
@@ -33,7 +34,6 @@
   .file:hover .file__download {
     grid-column-start: 5;
     display: flex;
-    border: #566885 solid 2px;
     justify-content: center;
     align-items: center;
     border-radius: 50px;
@@ -41,7 +41,6 @@
   .file:hover .file__delete {
     grid-column-start: 6;
     display: flex;
-    border: #566885 solid 2px;
     justify-content: center;
     align-items: center;
     border-radius: 50px;
@@ -65,9 +64,13 @@
     height: 100px;
     width: 100px;
   }
+  .file-plate__delete{
+    margin-left: 10px;
+  }
   .file-plate__btns {
     display: none;
   }
   .file-plate:hover .file-plate__btns {
+    margin-top: 10px;
     display: flex;
   }
