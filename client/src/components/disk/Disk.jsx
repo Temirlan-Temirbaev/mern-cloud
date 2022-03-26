@@ -7,6 +7,7 @@ import Popup from './Popup'
 import './disk.css'
 import { useState } from 'react';
 import Uploader from './uploader/Uploader';
+import UsedSpace from '../usedSpaceBar/UsedSpace';
 const Disk = () => {
     const dispatch = useDispatch()
     const currentDir = useSelector(state => state.files.currentDir)
@@ -54,7 +55,7 @@ const Disk = () => {
     if(loader === true){
         return (
             <div className="loader">
-                <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
             </div>
         )
     }
@@ -63,6 +64,7 @@ const Disk = () => {
         onDragEnd={dragEnterHandler} 
         onDragLeave={dragLeaveHandler} 
         onDragOver={dragOverHandler}>
+            <UsedSpace />
             <div className="disk__btns">
                 <div className="file__btns">
                     <button className="disk__back" onClick={() => backClickHandler()}>Назад</button>
@@ -92,6 +94,7 @@ const Disk = () => {
         onDragEnd={dragEnterHandler} 
         onDragLeave={dragLeaveHandler} 
         onDragOver={dragOverHandler}>
+            <UsedSpace />
             Перетащите файлы
         </div>
     );

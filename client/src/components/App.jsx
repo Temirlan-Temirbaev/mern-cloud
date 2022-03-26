@@ -18,6 +18,7 @@ function App() {
     }, [])
     return (
         <BrowserRouter>
+        
             <div className="app clear">
                 <Navbar/>
                 <div className="wrap">
