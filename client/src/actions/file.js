@@ -75,7 +75,7 @@ export async function downloadFile(file){
     if(response.status === 200) {
         const blob = await response.blob()
         const downloadUrl = window.URL.createObjectURL(blob)
-        console.log(blob);
+        console.log(blob);        
         const link = document.createElement('a')
         link.href = downloadUrl
         link.download = file.name;

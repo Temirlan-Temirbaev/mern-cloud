@@ -1,17 +1,18 @@
 .usedSpace{
     height: 30px;
     border-radius: 8px;
-    background-color: #566885;
+    background-color: #7FAEF4;
     display: flex;
     margin: 3px 0;
     display: flex;
     margin-bottom: 20px;
 }
 .used-space__upload-bar{
-    background-color: #7FAEF4;
+    background-color: #4294FF;
     border-radius: 8px;
 }
 .used-space__percent{
+    color: white;
     margin: 3px auto;
 }
 .usedSpace-text__info{

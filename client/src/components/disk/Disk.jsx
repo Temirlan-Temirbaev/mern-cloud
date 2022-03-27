@@ -28,7 +28,7 @@ const Disk = () => {
     }
     function fileUploadHandler(e){
         const files = [...e.target.files]
-        files.forEach(file => dispatch(uploadFile(file, currentDir)))
+        dispatch(uploadFile(files[0], currentDir))
     }
     function dragEnterHandler(event){
         event.preventDefault();
@@ -71,7 +71,7 @@ const Disk = () => {
                     <button className="disk__create" onClick={() => showPopupHandler()}>Создать папку</button>
                     <button className="disk__upload">
                         <label htmlFor="disk__upload-input" className="disk__upload-label">Загрузить файл</label>
-                        <input multiple={true} onChange={(e) => fileUploadHandler(e)} type="file" id='disk__upload-input' />
+                        <input multiple={false} onChange={(e) => fileUploadHandler(e)} type="file" id='disk__upload-input' />
                     </button>
                 </div>
                 <div className="view__btns">
@@ -89,13 +89,15 @@ const Disk = () => {
             <Uploader />
         </div>
         : 
-        <div className='drop-area' 
-        onDrop={dropHandler}
-        onDragEnd={dragEnterHandler} 
-        onDragLeave={dragLeaveHandler} 
-        onDragOver={dragOverHandler}>
-            <UsedSpace />
-            Перетащите файлы
+        <div style={{marginTop : '30px'}}>
+        <UsedSpace />
+            <div className='drop-area' 
+            onDrop={dropHandler}
+            onDragEnd={dragEnterHandler} 
+            onDragLeave={dragLeaveHandler} 
+            onDragOver={dragOverHandler}>
+                Перетащите файл
+            </div>
         </div>
     );
 };

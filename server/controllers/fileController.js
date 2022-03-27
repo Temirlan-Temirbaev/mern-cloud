@@ -103,12 +103,15 @@ class FileController{
     }
     async deleteFile(req,res){
         try {
+            const user = await User.findOne({_id: req.user.id})
             const file = await File.findOne({_id: req.query.id, user: req.user.id})
             if (!file) {
                 return res.status(400).json({message: 'Файл не найден'})
             }
+            user.usedSpace = user.usedSpace - file.size
             fileService.deleteFile(file)
             await file.remove()
+            await user.save()
             return res.json({message: 'Файл успешно был удален'})
         } catch (e) {
             console.log(e)
