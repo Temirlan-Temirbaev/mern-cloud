@@ -39,4 +39,5 @@
 
   .fileplate{
     display: flex;
+    flex-wrap: wrap;
   }

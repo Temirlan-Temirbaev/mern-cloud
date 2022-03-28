@@ -6,7 +6,7 @@ import deleteLogo from '../../../../assets/img/delete.png'
 import downloadLogo from '../../../../assets/img/upload.png'
 import {useDispatch, useSelector} from "react-redux";
 import {setCurrentDir,pushToStack} from '../../../../reducers/fileReducer'
-import { deleteFile, downloadFile } from '../../../../actions/file';
+import { deleteFile, downloadFile, readFile } from '../../../../actions/file';
 const File = ({file}) => {
     const dispatch = useDispatch()
     const currentDir = useSelector(state => state.files.currentDir)
@@ -15,8 +15,9 @@ const File = ({file}) => {
         dispatch(pushToStack(currentDir))
         dispatch(setCurrentDir(file._id))
     }
-    function openPlayerHandler(){
-        console.log("its not dir")
+    function openPlayerHandler(e){
+        e.stopPropagation()
+        dispatch(readFile(file))
     }
     function calculateSize(){
         if(file.size > 1024*1024*1024) {
@@ -41,8 +42,11 @@ const File = ({file}) => {
         dispatch(deleteFile(file))
     }
     if(view === 'list'){
+        if(file.name.length >= 20){
+            file.name = file.name.slice(0,17) + `...${file.type}`
+        }
     return (
-        <div className="file" onClick={file.type === 'dir' ? () => openHandler() : () => openPlayerHandler()}>
+        <div className="file" onClick={file.type === 'dir' ? () => openHandler() : (e) => openPlayerHandler(e)}>
             <img src={file.type === 'dir' ? dirLogo : fileLogo} width={48} height={48} alt="" className="file__img" />
             <div className="file__name">{file.name}</div>
             <div className="file__date">{file.date.slice(0, 10)}</div>
@@ -59,7 +63,7 @@ const File = ({file}) => {
         if(file.name.length >= 12){
             file.name = file.name.slice(0,10) + `...${file.type}`
         }
-        return <div className='file-plate' onClick={file.type === 'dir' ? () => openHandler() : () => openPlayerHandler()}>
+        return <div className='file-plate' onClick={file.type === 'dir' ? () => openHandler() : (e) => openPlayerHandler(e)}>
         <img src={file.type === 'dir' ? dirLogo : fileLogo} alt="" className="file-plate__img"/>
         <div className="file-plate__name">{file.name}</div>
         <div className="file-plate__btns">

@@ -8,6 +8,7 @@ import './disk.css'
 import { useState } from 'react';
 import Uploader from './uploader/Uploader';
 import UsedSpace from '../usedSpaceBar/UsedSpace';
+import Reader from '../reader/Reader';
 const Disk = () => {
     const dispatch = useDispatch()
     const currentDir = useSelector(state => state.files.currentDir)
@@ -21,18 +22,25 @@ const Disk = () => {
 
     function showPopupHandler() {
         dispatch(setPopupDisplay('flex'))
+        dispatch({type : "HIDE_READER"})
     }
     function backClickHandler(){
         const backDirId = dirStack.pop()
         dispatch(setCurrentDir(backDirId))
-    }
+    }   
     function fileUploadHandler(e){
         const files = [...e.target.files]
-        dispatch(uploadFile(files[0], currentDir))
+        let count = 0;
+        setInterval(() => {
+            dispatch(uploadFile(files[count], currentDir));
+            count++
+        }, 1000)
+        if(count === files.length) clearInterval();
     }
     function dragEnterHandler(event){
         event.preventDefault();
         event.stopPropagation()
+        dispatch({type : "HIDE_READER"})
         setDragEnter(true)
     }
     function dragLeaveHandler(event){
@@ -53,6 +61,7 @@ const Disk = () => {
         setDragEnter(false)
     }
     if(loader === true){
+        dispatch({type : "HIDE_READER"})
         return (
             <div className="loader">
                 <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
@@ -65,13 +74,15 @@ const Disk = () => {
         onDragLeave={dragLeaveHandler} 
         onDragOver={dragOverHandler}>
             <UsedSpace />
+            <Reader />
+            
             <div className="disk__btns">
                 <div className="file__btns">
                     <button className="disk__back" onClick={() => backClickHandler()}>Назад</button>
                     <button className="disk__create" onClick={() => showPopupHandler()}>Создать папку</button>
                     <button className="disk__upload">
                         <label htmlFor="disk__upload-input" className="disk__upload-label">Загрузить файл</label>
-                        <input multiple={false} onChange={(e) => fileUploadHandler(e)} type="file" id='disk__upload-input' />
+                        <input multiple={true} onChange={(e) => fileUploadHandler(e)} type="file" id='disk__upload-input' />
                     </button>
                 </div>
                 <div className="view__btns">

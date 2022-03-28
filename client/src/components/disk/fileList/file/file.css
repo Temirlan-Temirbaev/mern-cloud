@@ -55,6 +55,7 @@
     margin-top: 20px;
     width: 150px;
     height: 150px;
+    margin-right: 45px;
     cursor: pointer;
     display: flex;
     flex-direction: column;

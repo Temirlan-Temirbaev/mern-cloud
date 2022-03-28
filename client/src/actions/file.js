@@ -49,20 +49,20 @@ export function uploadFile(file, dirId ){
             const uploadFile = {name : file.name , progress: 0, id : Date.now()}
             dispatch({type : "SHOW_UPLOADER"})
             dispatch({type : "ADD_UPLOAD_FILE", payload : uploadFile})
-            const response = await axios.post(`${API_URL}api/files/upload`, formData, {
-                headers : {
-                    Authorization : `Bearer ${localStorage.getItem("token")}`
-                },
-                onUploadProgress: progressEvent => {
-                    const totalLength = progressEvent.lengthComputable ? progressEvent.total : progressEvent.target.getResponseHeader('content-length') || progressEvent.target.getResponseHeader('x-decompressed-content-length');
-                    console.log('total', totalLength)
-                    if (totalLength) {
-                        uploadFile.progress = Math.round((progressEvent.loaded * 100) / totalLength)
-                        dispatch({type : "CHANGE_UPLOAD_FILE", payload : uploadFile})
+                const response = await axios.post(`${API_URL}api/files/upload`, formData, {
+                    headers : {
+                        Authorization : `Bearer ${localStorage.getItem("token")}`
+                    },
+                    onUploadProgress: progressEvent => {
+                        const totalLength = progressEvent.lengthComputable ? progressEvent.total : progressEvent.target.getResponseHeader('content-length') || progressEvent.target.getResponseHeader('x-decompressed-content-length');
+                        console.log('total', totalLength)
+                        if (totalLength) {
+                            uploadFile.progress = Math.round((progressEvent.loaded * 100) / totalLength)
+                            dispatch({type : "CHANGE_UPLOAD_FILE", payload : uploadFile})
+                        }
                     }
-                }
-            })
-            dispatch(addFile(response.data))
+                })
+                dispatch(addFile(response.data))
         } catch (e) {
             alert(e.response.data.message)
         }
@@ -75,13 +75,46 @@ export async function downloadFile(file){
     if(response.status === 200) {
         const blob = await response.blob()
         const downloadUrl = window.URL.createObjectURL(blob)
-        console.log(blob);        
         const link = document.createElement('a')
         link.href = downloadUrl
         link.download = file.name;
         document.body.appendChild(link)
         link.click();
         link.remove()
+    }
+}
+
+export function readFile(file){
+    return async dispatch => {
+        const response = await fetch(`${API_URL}api/files/download?id=${file._id}`, {
+            headers : {Authorization : `Bearer ${localStorage.getItem('token')}`}
+        })
+        if(response.status === 200) {
+            const blob = await response.blob()
+            const reader = new FileReader();
+            const url = window.URL.createObjectURL(blob)
+            if(blob.type.match('text')){
+                reader.readAsText(blob)
+                reader.onload = ev => {
+                    const src = ev.target.result
+                    dispatch({type : "SHOW_READER"});
+                    dispatch({type : "READ_FILE", payload : {src : src, type : 'text'}})
+                }
+            }
+            if(blob.type.match('image')){
+                dispatch({type : "SHOW_READER"})
+                dispatch({type : "READ_FILE", payload : {src : url, type : "image"}})
+            }
+            if(blob.type.match('video')){
+                dispatch({type : "SHOW_READER"})
+                dispatch({type : "READ_FILE", payload : {src  : url, type : "video"}})
+            }
+            if(blob.type.match('audio')){
+                dispatch({type : "SHOW_READER"})
+                dispatch({type : "READ_FILE", payload : {src  : url, type : "audio"}})
+            }
+            else alert('Предварительный просмотр возможен только на изображениях, аудио, видео и тексте')
+        }
     }
 }
 export function deleteFile(file) {
